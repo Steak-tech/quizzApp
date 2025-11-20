@@ -32,13 +32,13 @@ export default function RootLayout({ children }) {
                 <a href="/play">Jouer</a>
               </li>
               <li>
-                <a href="/ping">Ping</a>
-              </li>
-              <li>
                 <a href="/login">Login</a>
               </li>
               <li>
                 <a href="/register">Inscription</a>
+              </li>
+              <li>
+                <a href="/themes">Thèmes</a>
               </li>
             </ul>
           </nav>
