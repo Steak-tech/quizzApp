@@ -1,9 +1,8 @@
-from django.http import JsonResponse
+from django.contrib import admin
 from django.urls import path
-
-def ping(request):
-    return JsonResponse({"message": "pong depuis Django !"})
+from api.views import themes_list
 
 urlpatterns = [
-    path('ping/', ping),
+    path('admin/', admin.site.urls),
+    path('api/themes/', themes_list),
 ]
