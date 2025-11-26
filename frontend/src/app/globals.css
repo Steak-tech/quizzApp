@@ -24,3 +24,25 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.playButton {
+  color: #ecf0f1;
+  font-size: 17px;
+  font-weight: bold;
+  text-transform: uppercase;
+  background-color: #e67e22;
+  border: 1px solid #f39c12;
+  cursor: pointer;
+  box-shadow: 0px 6px 0px #d35400;
+  transition: all 0.1s;
+}
+
+.playButton:active {
+  box-shadow: 0px 2px 0px #d35400;
+  position: relative;
+  top: 2px;
+}
+
+.playButton:hover {
+  background-color: #f39c12;
+}
