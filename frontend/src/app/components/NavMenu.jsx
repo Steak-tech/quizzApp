@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import SingleNavElement from "./SingleNavElement";
-import { FaArrowAltCircleUp,  FaArrowAltCircleDown} from "react-icons/fa";
+import { FaArrowAltCircleUp, FaArrowAltCircleDown } from "react-icons/fa";
 
 export default function NavMenu({ fields = [] }) {
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -16,36 +16,44 @@ export default function NavMenu({ fields = [] }) {
         }
         if (e.key === "Enter") {
             const selected = fields[selectedIndex];
-            if (selected) window.location.href = selected.href;
+            if (selected) window.location.href = selected.url || "#";
         }
     };
 
     useEffect(() => {
         window.addEventListener("keydown", handleKey);
         return () => window.removeEventListener("keydown", handleKey);
-    }, [selectedIndex]); 
+    }, [selectedIndex]);
 
-    let arrows = fields.length > 1;
+    const arrows = fields.length > 1;
+
     return (
-        <ul className="flex flex-col gap-6 text-right items-end">
-            {arrows && ( 
-                <div className="flex flex-row-reverse justify-center items-center mb-4"> 
-                    <FaArrowAltCircleUp /> 
-                    <p className="text-xs mr-2 italic"> Use your arrows! </p> 
+        <ul className="menu flex flex-col gap-6 text-right items-end">
+            {arrows && (
+                <div className="flex flex-row-reverse justify-center items-center mb-4">
+                    <FaArrowAltCircleUp />
+                    <p className="text-xs mr-2 italic">Use your arrows!</p>
                 </div>
             )}
+
             {fields.map((field, index) => (
-                <SingleNavElement
+                <div
                     key={field.name}
-                    name={field.name}
-                    href={`/${field.name.toLowerCase()}`}
-                    active={index === selectedIndex}
-                />
+                    onMouseEnter={() => setSelectedIndex(index)}
+                    className="w-full flex justify-end" //retirer le wfull si on veut que le hover se fasse que sur le texte
+                >
+                    <SingleNavElement
+                        name={field.name}
+                        href={field.url || "#"}
+                        active={index === selectedIndex}
+                    />
+                </div>
             ))}
-            {arrows && ( 
-                <div className="flex flex-row-reverse justify-center items-center mb-4"> 
-                    <FaArrowAltCircleDown /> 
-                    <p className="text-xs mr-2 italic"> Then press Enter </p> 
+
+            {arrows && (
+                <div className="flex flex-row-reverse justify-center items-center mt-4">
+                    <FaArrowAltCircleDown />
+                    <p className="text-xs mr-2 italic">Then press Enter</p>
                 </div>
             )}
         </ul>

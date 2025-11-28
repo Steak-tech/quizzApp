@@ -13,11 +13,13 @@ export default function HomePage() {
       <PlayButton>Commencer le Quiz</PlayButton>
       <RandomAvatar onClick={showAllAvatars}/>
       <Navmenu fields={[
-        {name:"Jouer"},
-        {name:"Login"},
-        {name:"Register"},
-        {name:"Thèmes"},
-        {name:"Profil"}
+        {name:"Jouer", url: "/play"},
+        {name:"Login", url: "/login"},
+        {name:"Register", url: "/register"},
+        {name:"Thèmes", url: "/themes"},
+        {name:"Profil", url: "/profile"},
+        {name:"Choix DA", url: "/da"},
+        {name:"Choix DA 2", url: "/da2"},
        ]} 
        />
     </>
