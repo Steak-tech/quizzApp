@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     "api",
+        "rest_framework",
+        "rest_framework_simplejwt",
 ]
 
 MIDDLEWARE = [
@@ -129,3 +131,10 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True # Note: This allows all origins. Use with caution in production.
+AUTH_USER_MODEL = "api.User"
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    )
+}

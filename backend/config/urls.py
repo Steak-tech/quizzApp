@@ -1,8 +1,13 @@
 from django.contrib import admin
-from django.urls import path
-from api.views import themes_list
+from django.urls import path, include
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/themes/', themes_list),
+    path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/', include('api.urls')),  # ← toutes les urls de l’API passent ici
 ]
