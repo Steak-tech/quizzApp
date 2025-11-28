@@ -1,7 +1,7 @@
-export default function PlayButton(){
+export default function PlayButton({children}){
     return (
-        <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-            Jouer
+        <button className="playButton px-8 py-2 rounded-3xl cursor-pointer ">
+            {children ? children : "Jouer"}
         </button>
     )
 }
