@@ -20,6 +20,7 @@ export default function HomePage() {
         {name:"Profil", url: "/profile"},
         {name:"Choix DA", url: "/da"},
         {name:"Choix DA 2", url: "/da2"},
+        {name:"Notes", url: "/test-data"}
        ]} 
        />
     </>
