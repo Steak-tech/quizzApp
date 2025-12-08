@@ -39,7 +39,8 @@ export default function NavMenu({ fields = [] }) {
             )}
 
             {fields.map((field, index) => (
-                isLoggedIn || !field.auth ? (
+                (!field.auth || (field.auth && isLoggedIn) ) &&
+                (!field.guestOnly || (field.guestOnly && !isLoggedIn) ) && (
                 <div
                     key={field.name}
                     onMouseEnter={() => setSelectedIndex(index)}
@@ -51,7 +52,7 @@ export default function NavMenu({ fields = [] }) {
                         active={index === selectedIndex}
                     />
                 </div>
-                ) : null
+                )
             ))}
 
             {arrows && (

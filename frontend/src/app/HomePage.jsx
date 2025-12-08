@@ -21,15 +21,15 @@ export default function HomePage() {
       <RandomAvatar onClick={showAllAvatars}/>
       <Navmenu fields={[
         {name:"Jouer", url: "/play", auth: false},
-        {name:"Login", url: "/login", auth: false},
-        {name:"Register", url: "/register", auth: false},
+        {name:"Login", url: "/login", auth: false, guestOnly: true},
+        {name:"Register", url: "/register", auth: false, guestOnly: true},
         {name:"Thèmes", url: "/themes", auth: false},
-        {name:"Profil", url: "/profile", auth: true},
+        {name:"Profil", url: "/user", auth: true},
         {name:"Choix DA", url: "/da", auth: true},
         {name:"Choix DA 2", url: "/da2", auth: true},
         {name:"Choix DA Final", url: "/da3", auth: true},
-        {name:"Style Guide", url: "/styleguide", auth: false},
-        {name:"Notes", url: "/test-data", auth: false}
+        {name:"Style Guide", url: "/styleguide", auth: true},
+        {name:"Notes", url: "/test-data", auth: true}
        ]} 
        />
        <button onClick={Disconect}>Se Déconnecter</button>

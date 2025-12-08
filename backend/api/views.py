@@ -49,7 +49,11 @@ def me(request):
     return Response({
         "id": request.user.id,
         "username": request.user.username,
-        "email": request.user.email
+        "email": request.user.email,
+        "avatar": request.user.avatar,
+        "niveau": request.user.niveau,
+        "xp": request.user.xp,
+        "rank": request.user.rank
     })
 
 @api_view(["POST"])
@@ -58,6 +62,7 @@ def register_user(request):
     username = request.data.get("username")
     email = request.data.get("email")
     password = request.data.get("password")
+    avatar = request.data.get("avatar")
 
     if not username or not password:
         return Response(
@@ -77,7 +82,7 @@ def register_user(request):
             status=status.HTTP_409_CONFLICT
         )
 
-    user = User.objects.create_user(username=username, password=password, email=email)
+    user = User.objects.create_user(username=username, password=password, email=email, avatar=avatar)
     return Response(
         {"message": "Utilisateur créé avec succès"},
         status=status.HTTP_201_CREATED
