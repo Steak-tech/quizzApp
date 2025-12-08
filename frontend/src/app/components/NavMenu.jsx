@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import SingleNavElement from "./SingleNavElement";
 import { FaArrowAltCircleUp, FaArrowAltCircleDown } from "react-icons/fa";
+import { AuthContext } from "../context/AuthContext";
 
 export default function NavMenu({ fields = [] }) {
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
     const handleKey = (e) => {
         if (e.key === "ArrowUp") {
@@ -37,6 +39,7 @@ export default function NavMenu({ fields = [] }) {
             )}
 
             {fields.map((field, index) => (
+                isLoggedIn || !field.auth ? (
                 <div
                     key={field.name}
                     onMouseEnter={() => setSelectedIndex(index)}
@@ -48,6 +51,7 @@ export default function NavMenu({ fields = [] }) {
                         active={index === selectedIndex}
                     />
                 </div>
+                ) : null
             ))}
 
             {arrows && (

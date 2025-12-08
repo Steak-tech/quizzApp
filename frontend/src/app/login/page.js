@@ -1,43 +1,37 @@
 'use client';
-import {useEffect, useState} from 'react';
+import { useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
+import { AuthContext } from '../context/AuthContext'; // ajuste le chemin selon ton projet
+import axios from 'axios';
 
 export default function LoginPage() {
     const router = useRouter();
+    const { setAuthState } = useContext(AuthContext); // fonction pour mettre à jour le contexte
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-
-    useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            router.push('/user'); // Redirige vers page user
-        }
-    }, [router]);
-
     const handleLogin = async () => {
         try {
-            const res = await fetch('http://localhost:8000/api/login/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password }),
+
+            const res = await axios.post('http://localhost:8000/api/login_custom/', {
+                username,
+                password,
             });
 
-            if (!res.ok) {
-                setError('Identifiants invalides');
-                return;
-            }
+            localStorage.setItem('token', res.data.access);
+            localStorage.setItem('user', JSON.stringify( res.data ));
+            //ajout du timestamp pour le refresh
+            const refreshWithTimestamp = {
+                token: res.data.refresh,
+                TIMESTAMP: new Date().getTime() + 1 * 60 * 1000, // 4 minutes
+            };
+            localStorage.setItem('refresh', JSON.stringify( refreshWithTimestamp ));
 
-            const data = await res.json();
 
-            // Sauvegarde token + user dans localStorage
-            localStorage.setItem('token', data.access);
-            localStorage.setItem('user', JSON.stringify({ username }));
-            window.dispatchEvent(new Event('login')); // <-- notifie la nav
+            setAuthState({ isLoggedIn: true, user: { username } });
 
-            // Redirection vers home
-            router.push('/user');
+            router.push('/');
         } catch (err) {
             setError('Erreur réseau');
             console.error(err);

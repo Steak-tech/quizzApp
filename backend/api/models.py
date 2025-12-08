@@ -9,6 +9,10 @@ class Theme(models.Model):
 
     def __str__(self):
         return self.nom
+    
+    def question_count(self):
+        return self.questions.count()
+    
 
 class Question(models.Model):
     theme = models.ForeignKey(Theme, related_name='questions', on_delete=models.CASCADE)
@@ -22,6 +26,7 @@ class Question(models.Model):
 
 class Partie(models.Model):
     theme = models.ForeignKey(Theme, on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
     score = models.IntegerField(default=0)
     date = models.DateTimeField(auto_now_add=True)
 
@@ -34,7 +39,7 @@ class User(AbstractUser):
 
     xp = models.IntegerField(default=0)
     niveau = models.IntegerField(default=1)
-    avatar = models.CharField(max_length=255, blank=True)  # URL d'avatar par exemple
+    avatar = models.CharField(max_length=255, blank=True)
     rank = models.IntegerField(default=0)
 
     def __str__(self):

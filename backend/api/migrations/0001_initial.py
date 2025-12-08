@@ -72,6 +72,7 @@ class Migration(migrations.Migration):
                 ('score', models.IntegerField(default=0)),
                 ('date', models.DateTimeField(auto_now_add=True)),
                 ('theme', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.theme')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.user')),
             ],
         ),
     ]
