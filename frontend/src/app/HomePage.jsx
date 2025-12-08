@@ -27,6 +27,9 @@ export default function HomePage() {
         {name:"Profil", url: "/profile", auth: true},
         {name:"Choix DA", url: "/da", auth: true},
         {name:"Choix DA 2", url: "/da2", auth: true},
+        {name:"Choix DA Final", url: "/da3", auth: true},
+        {name:"Style Guide", url: "/styleguide", auth: false},
+        {name:"Notes", url: "/test-data", auth: false}
        ]} 
        />
        <button onClick={Disconect}>Se Déconnecter</button>
