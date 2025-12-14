@@ -32,7 +32,7 @@ export default function LoginPage() {
             };
             localStorage.setItem('refresh', JSON.stringify(refreshWithTimestamp));
 
-            setAuthState({ isLoggedIn: true, user: { username } });
+            setAuthState({ isLoggedIn: true, user: res.data.user });
             router.push('/');
 
         } catch (err) {

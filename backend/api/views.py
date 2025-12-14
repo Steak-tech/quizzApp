@@ -6,7 +6,7 @@ from rest_framework import status
 from .models import User, Partie, Question, Theme
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from django.utils.timezone import now as Now
 
 
 # Create your views here.
@@ -110,7 +110,11 @@ def login_custom(request):
             "user": {
                 "id": user.id,
                 "username": user.username,
-                "email": user.email
+                "email": user.email,
+                "avatar": user.avatar,
+                "niveau": user.niveau,
+                "xp": user.xp,
+                "rank": user.rank
             }
         })
     else:
@@ -138,10 +142,19 @@ def refresh_custom(request):
             status=status.HTTP_401_UNAUTHORIZED
         )
 
+@api_view(['GET'])
+def get_questions_by_theme(request, theme_id):
+    # On récupère les questions liées à l'ID du thème
+    questions = Question.objects.filter(theme_id=theme_id)
+    serializer = QuestionSerializer(questions, many=True)
+    return Response(serializer.data)
+
 @api_view(["POST"])
-def create_game(request):
+@permission_classes([IsAuthenticated])
+def new_game(request):
     user = request.user
     theme_id = request.data.get("theme_id")
+    score = request.data.get("score")
 
     try:
         theme = Theme.objects.get(id=theme_id)
@@ -151,38 +164,25 @@ def create_game(request):
             status=status.HTTP_404_NOT_FOUND
         )
 
-    partie = Partie.objects.create(user=user, theme=theme)
-
-    return Response({
-        "message": "Partie créée avec succès",
-        "partie_id": partie.id
-    }, status=status.HTTP_201_CREATED)
-
-
-@api_view(["PUT"])
-def update_game_score(request, partie_id):
-    score = request.data.get("score")
-
-    try:
-        partie = Partie.objects.get(id=partie_id)
-    except Partie.DoesNotExist:
-        return Response(
-            {"error": "Partie non trouvée"},
-            status=status.HTTP_404_NOT_FOUND
-        )
-
-    partie.score = score
-    partie.save()
-
-    return Response({
-        "message": "Score mis à jour avec succès",
-        "partie_id": partie.id,
-        "new_score": partie.score
-    })
+    partie = Partie.objects.create(user=user, theme=theme, score=score, date=Now())
+    return Response(
+        {
+            "message": "Nouvelle partie créée",
+            "partie_id": partie.id
+        },
+        status=status.HTTP_201_CREATED
+    )
 
 @api_view(["GET"])
-def game_history(request):
-    user = request.user
+@permission_classes([IsAuthenticated])
+def game_history(request, user_id):
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return Response(
+            {"error": "Utilisateur non trouvé"},
+            status=status.HTTP_404_NOT_FOUND
+        )
     parties = Partie.objects.filter(user=user).order_by('-date')
 
     history_data = [

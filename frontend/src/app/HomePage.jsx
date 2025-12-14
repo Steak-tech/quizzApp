@@ -8,17 +8,16 @@ import { AuthContext } from "./context/AuthContext";
 
 export default function HomePage() {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
-  const user = useContext(AuthContext).user;
+  const { user } = useContext(AuthContext);
   console.log("isLoggedIn dans HomePage:", isLoggedIn);
+  console.log(user);
+  
   function showAllAvatars() {
     console.log("Afficher tous les avatars");
   }
   const { Disconect } = useContext(AuthContext);
   return (
-    <>
-      <h1>Le fruit de la Culture</h1>
-      <PlayButton>Commencer le Quiz</PlayButton>
-      <RandomAvatar onClick={showAllAvatars}/>
+    <div className="h-[100vh] flex flex-col justify-center items-end">
       <Navmenu fields={[
         {name:"Jouer", url: "/play", auth: false},
         {name:"Login", url: "/login", auth: false, guestOnly: true},
@@ -32,8 +31,56 @@ export default function HomePage() {
         {name:"Notes", url: "/test-data", auth: true}
        ]} 
        />
-       <button onClick={Disconect}>Se Déconnecter</button>
-       {isLoggedIn ? <p>Connecté en tant que {user?.username}</p> : <p>Non connecté</p>}
-    </>
+       <div className="absolute top-8 left-8 z-50">
+  {/* Conteneur stylisé avec effet "Glassmorphism" sombre */}
+  <div className="bg-[#1F1F1F]/90 backdrop-blur-md border border-[#D4AF37]/30 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.5)] p-4 transition-all duration-300 hover:border-[#D4AF37]/60">
+    
+    {isLoggedIn && user ? (
+      <div className="flex flex-col gap-3 min-w-[160px]">
+        
+        {/* Partie Haute : Avatar + Infos */}
+        <div className="flex items-center gap-3">
+          {/* Avatar avec cercle doré */}
+          <div className="relative">
+            <img 
+              src={user.avatar} 
+              alt="Avatar" 
+              className="w-12 h-12 rounded-full border-2 border-[#D4AF37] object-cover bg-[#1A0105]" 
+            />
+            {/* Petit indicateur de statut en ligne (optionnel) */}
+            <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-[#1F1F1F] rounded-full"></div>
+          </div>
+
+          <div className="flex flex-col">
+            <span className="font-['Playfair_Display'] font-bold text-[#D4AF37] text-lg leading-tight">
+              {user.username}
+            </span>
+            {/* Affichage du Niveau */}
+            <span className="text-[#F5D0C5]/80 text-xs uppercase tracking-wider font-bold">
+              Niveau {user.niveau || 1}
+            </span>
+          </div>
+        </div>
+
+        {/* Ligne de séparation subtile */}
+        <div className="h-px w-full bg-[#F5D0C5]/10"></div>
+
+        {/* Bouton Déconnexion compact */}
+        <button
+          onClick={() => {
+            Disconect(); // Note: attention à la typo "Disconect" vs "Disconnect" selon ton contexte
+            // setIsLoggedIn(false); // Pas nécessaire si Disconect() met déjà à jour le context
+          }}
+          className="w-full bg-[#1A0105] text-[#C00929] border border-[#C00929]/30 text-xs font-bold py-2 rounded-lg hover:bg-[#C00929] hover:text-[#F5D0C5] transition-all duration-300 uppercase tracking-widest"
+        >
+          Déconnexion
+        </button>
+      </div>
+    ) :(
+      <p>Connectez vous pour accéder au profil</p>
+    )} 
+  </div>
+</div>
+    </div>
   );
 }
