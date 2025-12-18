@@ -98,10 +98,10 @@ export default function PlayPage() {
                     Votre score : <span className="font-bold text-[#D4AF37] text-3xl">{score} / {questions.length}</span>
                 </p>
                 <button
-                    onClick={() => router.push('/themes')}
+                    onClick={() => router.push('/')}
                     className="px-8 py-3 bg-[#C00929] text-[#F5D0C5] font-bold rounded-lg hover:bg-[#A00722] transition-colors"
                 >
-                    Retour aux thèmes
+                    Retour à l'accueil
                 </button>
             </div>
         </div>

@@ -93,13 +93,13 @@ export default function ProfilePage() {
                             </p>
                         </div>
 
-                        {/* Grille de Stats */}
+                        {/* Grille de Stats
                         <div className="grid grid-cols-3 gap-4 mb-8">
                             <StatBox label="Niveau" value={user.niveau || 1} icon="⚡" />
                             <StatBox label="XP" value={user.xp || 0} icon="✨" />
                             <StatBox label="Rang" value={`#${user.rank || 0}`} icon="🏆" />
                         </div>
-
+ */}
                         <div className="mb-8">
                             <h2 className="text-xl font-['Playfair_Display'] font-bold text-[#D4AF37] mb-4 flex items-center gap-2">
                                 <span>📜</span> Historique des Parties
@@ -136,7 +136,7 @@ export default function ProfilePage() {
                                 )}
                             </div>
                         </div>
-
+                            
                         {/* Boutons d'action */}
                         <div className="flex flex-col sm:flex-row gap-4">
                             <button
@@ -161,7 +161,7 @@ export default function ProfilePage() {
 }
 
 // Composant Stats (Inchangé)
-function StatBox({ label, value, icon }) {
+/*function StatBox({ label, value, icon }) {
     return (
         <div className="bg-[#1A0105]/60 border border-[#D4AF37]/20 rounded-xl p-4 flex flex-col items-center justify-center hover:border-[#D4AF37] transition-all duration-300 group hover:-translate-y-1">
             <span className="text-2xl mb-1 filter drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]">{icon}</span>
@@ -170,3 +170,4 @@ function StatBox({ label, value, icon }) {
         </div>
     );
 }
+    */
